@@ -58,7 +58,7 @@ void LogCommand::printCommitLog(const std::string& commitHash)
 
     std::string commitContent = FilesHelper::getFileContent(objectFilePath);
     if (commitContent.empty()) {
-        std::cerr << "Commit not found: " << commitHash << std::endl;
+        std::cout << "End of commit history." << std::endl;
         return;
     }
 
@@ -78,16 +78,26 @@ void LogCommand::printCommitLog(const std::string& commitHash)
         // Recursively call for the parent commit
         printCommitLog(parentHash);
     }
+    else {
+        // No parent, stop recursion
+        std::cout << "End of commit history." << std::endl;
+    }
 }
 
 std::string LogCommand::getParentHash(const std::string& commitContent)
 {
-    // Extract the first parent hash (if available)
+    // Extract the parent hash (if any)
     size_t parentPos = commitContent.find("parent ");
     if (parentPos == std::string::npos) {
         return ""; // No parent found
     }
 
+    // Find the newline after "parent "
     size_t parentEndPos = commitContent.find("\n", parentPos);
+    if (parentEndPos == std::string::npos) {
+        return ""; // Malformed commit, no newline after parent hash
+    }
+
+    // Extract the parent hash
     return commitContent.substr(parentPos + 7, parentEndPos - parentPos - 7); // Extract the hash
 }
