@@ -23,7 +23,7 @@ void Blob::storeObject() const
 std::string Blob::serialize() const
 {
 	// sha1 by the format: "type size\0content"
-	std::string serialized = ObjectTypes::objectTypeToString(this->getType()) + " " + std::to_string(this->getSize()) + "\0" + this->getContent();
+	std::string serialized = ObjectTypes::objectTypeToString(this->getType()) + " " + std::to_string(this->getContent().size()) + "\0" + this->getContent();
 	return serialized;
 }
 

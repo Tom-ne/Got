@@ -59,10 +59,10 @@ void Commit::storeObject() const
     std::string path = content.substr(4); // remove the "ref: " part
 
     // step 5: go the the path specified in HEAD and write the hash to the file
-    std::string refsPath = Constants::instance().getRefsPath();
+    std::string headsPath = Constants::instance().getHeadsPath();
     // create the file with the name at the end of path (eg. master here)
     std::string fileName = path.substr(path.find_last_of("/") + 1);
-    std::string filePath2 = refsPath + "/" + fileName;
+    std::string filePath2 = headsPath + "/" + fileName;
     FilesHelper::createFile(filePath2);
     // write the hash to the file
     FilesHelper::writeToFile(filePath2, hash);

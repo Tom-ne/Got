@@ -21,4 +21,6 @@ public:
 
 	static std::string getRelativePath(const std::string& path);
 	static std::string getCurrentDirectory();
+
+	static bool isInGot(std::string& path);
 };

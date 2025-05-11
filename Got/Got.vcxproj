@@ -139,7 +139,6 @@
     <ClCompile Include="Index.cpp" />
     <ClCompile Include="InitCommand.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Sha1.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>

@@ -60,9 +60,6 @@
     <ClCompile Include="Blob.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>

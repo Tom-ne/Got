@@ -4,7 +4,6 @@
 #include "Commit.h"
 #include "Index.h"
 #include "Tree.h"
-#include "IndexEntry.h"
 #include "FilesHelper.h"
 
 namespace {
@@ -16,86 +15,43 @@ namespace {
 		}();
 }
 
-CommitCommand::CommitCommand()
-{
-}
+CommitCommand::CommitCommand() {}
 
 void CommitCommand::execute(const std::vector<std::string>& args)
 {
-	// step 1: get the commit messsage from args
+	// Step 1: Check and get commit message
 	if (args.empty()) {
 		std::cerr << "No commit message provided." << std::endl;
 		return;
 	}
-
 	std::string commitMessage = args[0];
 
-	// step 2: get the author from args
+	// Step 2: Check and get author
 	if (args.size() < 2) {
 		std::cerr << "No author provided." << std::endl;
 		return;
 	}
-
 	std::string author = args[1];
 
-	// step 3: parents hashes, empty for now
+	// Step 3: (Optional) get parent hashes (not implemented yet)
 	std::vector<std::string> parentHashes;
 
-	// step 4: get the entries from the index
-	// get the index
+	// Step 4: Convert index to a Tree object
 	Index& index = Index::instance();
-	// get the index entries
-	std::vector<IndexEntry> indexEntries = index.getEntries();
 
-	// step 5: create tree members.
-	// iterate over the index entries, and create blobs and trees for each entry.
-	// add the blobs and trees to the tree.
-
-	// create a tree
-	Tree tree;
-	tree.setPath(".");
-	for (auto entry : indexEntries) {
-		Object* object;
-		std::string name = entry.path;
-		// if entry.path contains the constants::getFolderPath, continue
-		if (entry.path.find(Constants::instance().getFolderPath()) != std::string::npos) {
-			std::cerr << "Cannot add a folder inside the repository." << std::endl;
-			continue;
-		}
-
-		// check if the entry is a folder or a file
-		if (entry.mode == Constants::instance().getFolderMode()) {
-			// create a tree and store it.
-			Tree childTree;
-			childTree.mapObjects(entry.path);
-			childTree.storeObject();
-			childTree.setPath(entry.path); // set the path of the tree
-			std::cout << "Tree stored: " << childTree.hash() << std::endl;
-
-			object = childTree.clone();
-		}
-		else if (entry.mode == Constants::instance().getFileMode()) {
-			// create a blob and store it.
-			Blob blob(FilesHelper::getFileContent(entry.path));
-			blob.storeObject();
-			std::cout << "Blob stored: " << blob.hash() << std::endl;
-
-			// add the blob to the tree
-			object = blob.clone();
-		}
-		else {
-			std::cerr << "Unknown file type: " << entry.path << std::endl;
-			return;
-		}
-
-		// add the object to the tree
-		tree.addObject(name, object);
+	Tree* rootTree = index.toObjectTree(".");
+	if (!rootTree) {
+		std::cerr << "Failed to convert index to tree." << std::endl;
+		return;
 	}
 
-	// step 6: store the tree
-	tree.storeObject();
+	// Step 5: Store tree and commit
+	//rootTree->storeObject();
 
-	// step 7: create the commit
-	Commit commit(tree.hash(), parentHashes, author, commitMessage);
+	Commit commit(rootTree->hash(), parentHashes, author, commitMessage);
 	commit.storeObject();
+
+	std::cout << "Commit created: " << commit.hash() << std::endl;
+
+	delete rootTree;
 }

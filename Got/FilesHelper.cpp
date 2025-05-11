@@ -5,6 +5,7 @@
 #include <vector>
 #include "FailedToCreateFolderException.h"
 #include "FailedToCreateFileException.h"
+#include "Constants.h"
 
 namespace fs = std::filesystem;
 
@@ -113,7 +114,7 @@ std::string FilesHelper::getFileContent(const std::string& filePath) {
     fs::path path(filePath);
     std::ifstream file(path);
     if (!file) {
-        throw std::runtime_error("Failed to open file: " + path.string());
+        return "";
     }
 
     return std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
@@ -133,4 +134,15 @@ std::string FilesHelper::getCurrentDirectory() {
         std::cerr << "Error getting current directory: " << e.what() << std::endl;
         return "";
     }
+}
+
+bool FilesHelper::isInGot(std::string& path)
+{
+    fs::path repoPath = fs::absolute(Constants::instance().getFolderPath());
+    fs::path targetPath = fs::absolute(path);
+    fs::path relative = fs::relative(targetPath, repoPath);
+    if (relative.empty() || relative.native()[0] != '.') {
+		return true;
+	}
+    return false;
 }

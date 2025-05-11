@@ -7,36 +7,24 @@
 #include "FilesHelper.h"
 #include "Sha1.h"
 
-class Object
-{
+class Object {
 public:
-	Object(const std::string& content, ObjectTypes::ObjectType type)
-		: content(content), type(type)
-	{
-		size = content.size();
-	}
+    Object(std::string content, ObjectTypes::ObjectType type, std::string path = "")
+        : content(std::move(content)), type(type), path(std::move(path)) {}
 
-	virtual ~Object() = default;
+    virtual ~Object() = default;
 
-	virtual Object* clone() const = 0;
+    virtual std::string serialize() const = 0;
+    virtual std::string hash() const = 0;
+    virtual void storeObject() const = 0;
+    virtual Object* clone() const = 0;
 
-	virtual void storeObject() const = 0;
-
-	virtual std::string serialize() const = 0;
-	virtual std::string hash() const = 0;
-	
-	std::string getContent() const;
-	ObjectTypes::ObjectType getType() const;
-	size_t getSize() const;
+    const std::string& getContent() const { return content; }
+    ObjectTypes::ObjectType getType() const { return type; }
+    const std::string& getPath() const { return path; }
 
 protected:
-	void updateContent(std::string& content) {
-		this->content = content;
-		this->size = content.size();
-	}
-
-private:
-	std::string content;
-	ObjectTypes::ObjectType type;
-	size_t size;
+    std::string content;
+    ObjectTypes::ObjectType type;
+    std::string path; 
 };
