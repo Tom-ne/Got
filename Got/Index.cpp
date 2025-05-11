@@ -22,11 +22,10 @@ Index::Index() {
 void Index::add(const IndexEntry& entry)
 {
     // print the entry to the console
-    std::cout << "Adding entry to index: " << entry.mode << " " << entry.hash << " " << entry.path << std::endl;
     entries.push_back(entry);
 }
 
-void Index::save() const
+void Index::save()
 {
     if (this->entries.empty())
 	{
@@ -34,10 +33,17 @@ void Index::save() const
 		return; // nothing to save
 	}
 
+    // clear the index file before writing
+    this->clearFile();
+
     // write to the index file.
     // the writing format should be: <mode> <hash> <path>
-    IndexEntry entry = entries.back();
-    FilesHelper::writeToFile(this->indexFilePath, entry.mode + " " + entry.hash + " " + entry.path);
+    std::string content;
+    for (const auto& entry : entries)
+	{
+        content += entry.mode + " " + entry.hash + " " + entry.path + "\n";
+	}
+    FilesHelper::writeToFile(this->indexFilePath, content);
 }
 
 void Index::load()
@@ -73,13 +79,17 @@ void Index::clear()
 {
     entries.clear();
     // clear the index file
+    this->clearFile();
+}
+
+void Index::clearFile() 
+{
     std::ofstream ofs(this->indexFilePath, std::ofstream::out | std::ofstream::trunc);
     if (!ofs.is_open())
-	{
-		throw std::runtime_error("Could not open index file for clearing");
-	}
+    {
+        throw std::runtime_error("Could not open index file for clearing");
+    }
     ofs.close();
-	std::cout << "Index cleared." << std::endl;
-    
+    std::cout << "Index cleared." << std::endl;
 }
 

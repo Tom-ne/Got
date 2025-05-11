@@ -18,4 +18,6 @@ public:
 
 	const std::string& getFolderMode() const;
 	const std::string& getFileMode() const;
+
+	const int getHashCount() const;
 };

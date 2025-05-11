@@ -24,4 +24,9 @@ class ObjectTypes
 			default: return "unknown";
 		}
 	}
+
+	friend bool operator==(ObjectType lhs, ObjectType rhs)
+	{
+		return static_cast<int>(lhs) == static_cast<int>(rhs);
+	}
 };

@@ -53,3 +53,8 @@ const std::string& Constants::getFileMode() const
     static std::string mode = "100644"; // default file mode
     return mode;
 }
+
+const int Constants::getHashCount() const
+{
+    return 8;
+}

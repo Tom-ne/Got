@@ -18,4 +18,7 @@ public:
 
 	static std::vector<std::string> getFilesInDirectory(const std::string& directoryPath);
 	static std::string getFileContent(const std::string& filePath);
+
+	static std::string getRelativePath(const std::string& path);
+	static std::string getCurrentDirectory();
 };

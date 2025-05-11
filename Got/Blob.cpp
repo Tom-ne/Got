@@ -4,13 +4,13 @@ void Blob::storeObject() const
 {
 	std::string hash = this->hash();
 	// get the first two characters of the hash
-	std::string firstTwoChars = hash.substr(0, 4);
+	std::string firstChars = hash.substr(0, Constants::instance().getHashCount());
 	// get the rest of the hash
-	std::string restOfHash = hash.substr(4);
+	std::string restOfHash = hash.substr(Constants::instance().getHashCount());
 
 	// create the directory inside objects.
 	std::string objectsPath = Constants::instance().getObjectsPath();
-	std::string objectPath = objectsPath + "/" + firstTwoChars;
+	std::string objectPath = objectsPath + "/" + firstChars;
 	FilesHelper::createFolder(objectPath);
 
 	// create the file inside the directory.
@@ -34,6 +34,5 @@ std::string Blob::hash() const
 	sha1.update(serialized);
 	// get the hash
 	std::string hash = sha1.final();
-	// prepend the hash to the serialized
 	return hash;
 }

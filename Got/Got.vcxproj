@@ -132,6 +132,8 @@
     <ClCompile Include="Blob.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
+    <ClCompile Include="Commit.cpp" />
+    <ClCompile Include="CommitCommand.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="FilesHelper.cpp" />
     <ClCompile Include="Index.cpp" />
@@ -147,6 +149,8 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="CommandNotFoundException.h" />
+    <ClInclude Include="Commit.h" />
+    <ClInclude Include="CommitCommand.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="FailedToCreateFileException.h" />
     <ClInclude Include="FailedToCreateFolderException.h" />

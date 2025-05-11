@@ -18,6 +18,8 @@ public:
 
 	virtual ~Object() = default;
 
+	virtual Object* clone() const = 0;
+
 	virtual void storeObject() const = 0;
 
 	virtual std::string serialize() const = 0;

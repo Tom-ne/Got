@@ -16,18 +16,18 @@ void Tree::storeObject() const
 	// call storeObject on every object in the tree.
 	for (const auto& object : objects)
 	{
-		object.second->storeObject(); // store the object
+		object.second->storeObject();
 	}
 
 	std::string hash = this->hash();
 	// get the first two characters of the hash
-	std::string firstTwoChars = hash.substr(0, 4);
+	std::string firstChars = hash.substr(0, Constants::instance().getHashCount());
 	// get the rest of the hash
-	std::string restOfHash = hash.substr(4);
+	std::string restOfHash = hash.substr(Constants::instance().getHashCount());
 
 	// create the directory inside objects.
 	std::string objectsPath = Constants::instance().getObjectsPath();
-	std::string objectPath = objectsPath + "/" + firstTwoChars;
+	std::string objectPath = objectsPath + "/" + firstChars;
 	FilesHelper::createFolder(objectPath);
 
 	// create the file inside the directory.
@@ -98,21 +98,32 @@ std::string Tree::hash() const
 
 void Tree::mapObjects(const std::string& treePath)
 {
-	// a method responsible for adding objects to the tree.
-	// it should take a path to a directory and add all the files and directories inside it to the tree.
-	// it should also add the files and directories inside the directories to the tree.
-	//if (!FilesHelper::doesFileExist(treePath)) {
-	//	throw std::runtime_error("Path does not exist: " + treePath);
-	//}
-
-	if (!FilesHelper::isDirectory(treePath)) {
-		throw std::runtime_error("Path is not a directory: " + treePath);
+	// Ensure treePath is not empty
+	if (treePath.empty()) {
+		throw std::runtime_error("Path is empty");
 	}
 
-	this->treePath = treePath;
-	std::vector<std::string> contents = FilesHelper::getFilesInDirectory(treePath);
+	// Handle the case where the treePath is "." (current directory)
+	std::string currentDir = treePath;
+	if (currentDir == ".") {
+		currentDir = FilesHelper::getCurrentDirectory(); // Get the current working directory if it's "."
+	}
+
+	if (!FilesHelper::isDirectory(currentDir)) {
+		std::cout << "Path is not a directory: " << currentDir << std::endl;
+		throw std::runtime_error("Path is not a directory: " + currentDir);
+	}
+
+	this->treePath = currentDir;
+	std::vector<std::string> contents = FilesHelper::getFilesInDirectory(currentDir);
+
 	for (const auto& content : contents) {
 		if (FilesHelper::isDirectory(content)) {
+			// if the content contains the constants::getFolderPath, continue
+			if (content.find(Constants::instance().getFolderPath()) != std::string::npos) {
+				std::cerr << "Cannot add a folder inside the repository." << std::endl;
+				continue;
+			}
 			Tree* tree = new Tree();
 			std::cout << "Mapping objects in directory: " << content << std::endl;
 			tree->mapObjects(content);
@@ -123,4 +134,24 @@ void Tree::mapObjects(const std::string& treePath)
 			objects[content] = blob;
 		}
 	}
+}
+
+void Tree::addObject(const std::string& name, Object* object)
+{
+	// a method responsible for adding objects to the tree.
+	// it should take a name and an object and add it to the tree.
+	if (object == nullptr) {
+		throw std::runtime_error("Object is null");
+	}
+	objects[name] = object;
+}
+
+void Tree::setPath(std::string treePath)
+{
+	this->treePath = treePath;
+}
+
+std::map<std::string, Object*>& Tree::getObjects()
+{
+	return objects;
 }

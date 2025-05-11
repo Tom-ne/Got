@@ -9,10 +9,11 @@ public:
 	static Index& instance();
 
 	void add(const IndexEntry& entry);
-	void save() const;
+	void save();
 	void load();
 	const std::vector<IndexEntry>& getEntries() const;
 	void clear();
+	void clearFile();
 
 private:
 	Index();
