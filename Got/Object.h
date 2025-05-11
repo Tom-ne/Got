@@ -18,10 +18,10 @@ public:
 
 	virtual ~Object() = default;
 
-	virtual void storeObject() const;
+	virtual void storeObject() const = 0;
 
-	virtual std::string serialize() const;
-	virtual std::string hash() const;
+	virtual std::string serialize() const = 0;
+	virtual std::string hash() const = 0;
 	
 	std::string getContent() const;
 	ObjectTypes::ObjectType getType() const;

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "CommandFactory.h"
-#include "Object.h"
-#include "ObjectTypes.h"
+#include "Tree.h"
 
 int main(int argc, char* argv[]) {
 	std::cout << "Hello, World!" << std::endl;
@@ -10,6 +9,8 @@ int main(int argc, char* argv[]) {
 	CommandFactory::instance();
 	try {
 		CommandFactory::instance().runCommand(argv[1], std::vector<std::string>());
+		// run the Add command with the argument "Command.h"
+		CommandFactory::instance().runCommand("add", { "Command.h" });
 	}
 	catch (const CommandNotFoundException& e) {
 		std::cerr << "Command not found: " << e.what() << std::endl;

@@ -128,11 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddCommand.cpp" />
     <ClCompile Include="Blob.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="FilesHelper.cpp" />
+    <ClCompile Include="Index.cpp" />
     <ClCompile Include="InitCommand.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -140,6 +142,7 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddCommand.h" />
     <ClInclude Include="Blob.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandFactory.h" />
@@ -148,6 +151,8 @@
     <ClInclude Include="FailedToCreateFileException.h" />
     <ClInclude Include="FailedToCreateFolderException.h" />
     <ClInclude Include="FilesHelper.h" />
+    <ClInclude Include="Index.h" />
+    <ClInclude Include="IndexEntry.h" />
     <ClInclude Include="InitCommand.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectTypes.h" />

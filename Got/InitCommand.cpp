@@ -44,7 +44,10 @@ void InitCommand::createFolders()
 
 void InitCommand::createFiles()
 {
+    // create the HEAD file
     FilesHelper::createFile(Constants::instance().getHeadPath());
-
     FilesHelper::writeToFile(Constants::instance().getHeadPath(), "ref: refs/heads/master");
+
+    // create the index file
+    FilesHelper::createFile(Constants::instance().getIndexFilePath());
 }

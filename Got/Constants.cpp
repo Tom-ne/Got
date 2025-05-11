@@ -35,3 +35,21 @@ const std::string& Constants::getInitialRef() const {
     static std::string ref = "ref: refs/heads/master";
     return ref;
 }
+
+const std::string& Constants::getIndexFilePath() const
+{
+    static std::string path = (std::filesystem::path(getFolderPath()) / "index").string();
+	return path;
+}
+
+const std::string& Constants::getFolderMode() const
+{
+    static std::string mode = "40000"; // default folder mode
+    return mode;
+}
+
+const std::string& Constants::getFileMode() const
+{
+    static std::string mode = "100644"; // default file mode
+    return mode;
+}

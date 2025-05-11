@@ -4,9 +4,9 @@ void Blob::storeObject() const
 {
 	std::string hash = this->hash();
 	// get the first two characters of the hash
-	std::string firstTwoChars = hash.substr(0, 2);
+	std::string firstTwoChars = hash.substr(0, 4);
 	// get the rest of the hash
-	std::string restOfHash = hash.substr(2);
+	std::string restOfHash = hash.substr(4);
 
 	// create the directory inside objects.
 	std::string objectsPath = Constants::instance().getObjectsPath();
