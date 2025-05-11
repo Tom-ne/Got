@@ -10,7 +10,5 @@ public:
 	void execute(const std::vector<std::string>& args) override;
 private:
 	const std::string commandName = "add";
-
-	void addToIndex(std::string path, ObjectTypes::ObjectType type, Object* object);
 };
 

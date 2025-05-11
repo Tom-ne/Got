@@ -138,6 +138,7 @@
     <ClCompile Include="FilesHelper.cpp" />
     <ClCompile Include="Index.cpp" />
     <ClCompile Include="InitCommand.cpp" />
+    <ClCompile Include="LogCommand.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sha1.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Index.h" />
     <ClInclude Include="IndexEntry.h" />
     <ClInclude Include="InitCommand.h" />
+    <ClInclude Include="LogCommand.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectTypes.h" />
     <ClInclude Include="Sha1.h" />
