@@ -1,4 +1,5 @@
 #include "Commit.h"
+#include <string>
 
 std::string Commit::serialize() const
 {
@@ -13,6 +14,9 @@ std::string Commit::serialize() const
 	{
 		serialized += parentHash + "\n";
 	}
+    // if there are no parent hashes, we should add a newline
+    if (this->parentHashes.empty())
+        serialized += "\n";
     serialized += "author " + this->author + "\n";
 	serialized += "message " + this->message + "\n";
 	return serialized;
@@ -34,39 +38,44 @@ std::string Commit::hash() const
 
 void Commit::storeObject() const
 {
-    // step 1: serialize the object
-    std::string serialized = this->serialize();
+    // Step 1: Read the HEAD reference
+    std::string headContent = FilesHelper::getFileContent(Constants::instance().getHeadPath());
+    std::string refPath = headContent.substr(5); // Skip "ref: "
 
-    // step 2: hash the object
+    // Step 2: Get full path to the branch file (e.g., .got/refs/heads/master)
+    std::string branchName = refPath.substr(refPath.find_last_of("/") + 1);
+    std::string branchFilePath = Constants::instance().getHeadsPath() + "/" + branchName;
+
+    // Step 3: Check if this branch file exists — if yes, add it as parent
+    std::string existingCommitHash = FilesHelper::getFileContent(branchFilePath);
+    if (!existingCommitHash.empty())
+    {
+        // Remove trailing newline if present
+        if (!existingCommitHash.empty() && existingCommitHash.back() == '\n')
+            existingCommitHash.pop_back();
+
+        this->parentHashes.push_back(existingCommitHash);
+    }
+
+    // Step 4: Serialize and hash the commit
+    std::string serialized = serialize();
     std::string hash = this->hash();
 
-    // step 3: store the object in the object dir
+    // Step 5: Write the object to .got/objects/xx/yyyy...
     std::string firstChars = hash.substr(0, Constants::instance().getHashCount());
     std::string restOfHash = hash.substr(Constants::instance().getHashCount());
-    std::string objectsPath = Constants::instance().getObjectsPath();
-    std::string objectPath = objectsPath + "/" + firstChars;
-    FilesHelper::createFolder(objectPath);
-    std::string filePath = objectPath + "/" + restOfHash;
-    FilesHelper::createFile(filePath);
-    // write the content to the file.
-    FilesHelper::writeToFile(filePath, serialized);
+    std::string objectDir = Constants::instance().getObjectsPath() + "/" + firstChars;
+    std::string objectFilePath = objectDir + "/" + restOfHash;
 
-    // step 4: read the path from HEAD
-    std::string content = FilesHelper::getFileContent(Constants::instance().getHeadPath());
-    // this is how the content looks like:
-    // ref: refs/heads/master
-    // we need to get the path from it.
-    std::string path = content.substr(4); // remove the "ref: " part
+    FilesHelper::createFolder(objectDir);
+    FilesHelper::createFile(objectFilePath);
+    FilesHelper::writeToFile(objectFilePath, serialized);
 
-    // step 5: go the the path specified in HEAD and write the hash to the file
-    std::string headsPath = Constants::instance().getHeadsPath();
-    // create the file with the name at the end of path (eg. master here)
-    std::string fileName = path.substr(path.find_last_of("/") + 1);
-    std::string filePath2 = headsPath + "/" + fileName;
-    FilesHelper::createFile(filePath2);
-    // write the hash to the file
-    FilesHelper::writeToFile(filePath2, hash);
+    // Step 6: Update branch reference to point to this commit
+    FilesHelper::createFile(branchFilePath);
+    FilesHelper::writeToFile(branchFilePath, hash);
 }
+
 
 std::string Commit::getTreeHash() const
 {

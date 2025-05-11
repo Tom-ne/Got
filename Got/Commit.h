@@ -28,7 +28,7 @@ public:
 	std::string getMessage() const;
 private:
 	std::string treeHash;
-	std::vector<std::string> parentHashes;
+	mutable std::vector<std::string> parentHashes;
 	std::string author;
 	std::string message;
 };
