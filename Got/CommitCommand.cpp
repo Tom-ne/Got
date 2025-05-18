@@ -45,9 +45,7 @@ void CommitCommand::execute(const std::vector<std::string>& args)
 		return;
 	}
 
-	// Step 5: Store tree and commit
-	//rootTree->storeObject();
-
+	// Step 5: Create commit and store it
 	Commit commit(rootTree->hash(), parentHashes, author, commitMessage);
 	commit.storeObject();
 
