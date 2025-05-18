@@ -15,7 +15,7 @@ public:
     virtual ~Object() = default;
 
     virtual std::string serialize() const = 0;
-    virtual std::string hash() const = 0;
+    virtual std::string hash() const;
     virtual void storeObject() const = 0;
     virtual Object* clone() const = 0;
 
