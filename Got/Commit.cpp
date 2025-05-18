@@ -29,10 +29,8 @@ std::string Commit::hash() const
     std::string serialized = this->serialize();
     std::string header = "commit " + std::to_string(serialized.size()) + "\0";
     std::string fullSerialized = header + serialized;
-    Sha1 sha1;
-    sha1.update(fullSerialized);
     // get the hash
-    std::string hash = sha1.final();
+    std::string hash = Sha1::hash(fullSerialized);
     return hash;
 }
 
