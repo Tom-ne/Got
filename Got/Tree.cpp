@@ -81,14 +81,6 @@ std::string Tree::serialize() const
     return header + serializedContent;
 }
 
-std::string Tree::hash() const
-{
-    std::string serialized = this->serialize();
-    Sha1 sha1;
-    sha1.update(serialized);
-    return sha1.final();
-}
-
 void Tree::mapObjects(const std::string& treePath)
 {
     if (treePath.empty())

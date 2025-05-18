@@ -26,13 +26,3 @@ std::string Blob::serialize() const
 	std::string serialized = ObjectTypes::objectTypeToString(this->getType()) + " " + std::to_string(this->getContent().size()) + "\0" + this->getContent();
 	return serialized;
 }
-
-std::string Blob::hash() const
-{
-	std::string serialized = this->serialize();
-	Sha1 sha1;
-	sha1.update(serialized);
-	// get the hash
-	std::string hash = sha1.final();
-	return hash;
-}
