@@ -34,15 +34,18 @@
     <Filter Include="Source Files\Objects">
       <UniqueIdentifier>{593e9543-5f5c-42a9-8383-86808365ce0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Hashs">
+      <UniqueIdentifier>{0aa865be-a04d-4eb6-b2e3-1ee5946431e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hashes">
+      <UniqueIdentifier>{e0a40630-099f-4de6-9e8f-9055a8eadba2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Constants.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
@@ -78,6 +81,12 @@
     <ClCompile Include="LogCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sha1.cpp">
+      <Filter>Source Files\Hashes</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandFactory.h">
@@ -102,9 +111,6 @@
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sha1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectTypes.h">
@@ -135,7 +141,10 @@
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="LogCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Sha1.h">
+      <Filter>Header Files\Hashs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

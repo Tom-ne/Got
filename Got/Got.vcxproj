@@ -140,6 +140,7 @@
     <ClCompile Include="InitCommand.cpp" />
     <ClCompile Include="LogCommand.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Sha1.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
