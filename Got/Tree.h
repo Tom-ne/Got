@@ -18,7 +18,6 @@ public:
     }
 
     std::string serialize() const override;
-    std::string hash() const override;
     void mapObjects(const std::string& treePath);
 
     void addObject(const std::string& name, Object* object);

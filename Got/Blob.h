@@ -16,6 +16,5 @@ public:
 	}
 	
 	std::string serialize() const override;
-	std::string hash() const override;
 };
 
